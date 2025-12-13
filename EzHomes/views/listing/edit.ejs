@@ -17,7 +17,7 @@
             type="text"
             id="title"
             placeholder="Enter title"
-            name="title"
+            name="listing[title]"
             class="form-control"
             value="<%= listing.title %>"
             required
@@ -31,7 +31,7 @@
           <label for="description" class="form-label">Description</label>
           <textarea
             id="description"
-            name="description"
+            name="listing[description]"
             class="form-control"
             placeholder="Enter description"
             rows="3"
@@ -51,7 +51,7 @@
             class="form-control"
             type="url"
             placeholder="Enter image URL"
-            name="image"
+            name="listing[image][url]"
             value="<%= listing.image.url %>"
             required
           />
@@ -67,7 +67,7 @@
               id="price"
               class="form-control"
               placeholder="Enter price"
-              name="price"
+              name="listing[price]"
               value="<%= listing.price %>"
               required
             />
@@ -79,7 +79,7 @@
             <input
               id="country"
               type="text"
-              name="country"
+              name="listing[country]"
               placeholder="Enter country"
               class="form-control"
               value="<%= listing.country %>"
@@ -98,7 +98,7 @@
             class="form-control"
             type="text"
             placeholder="Enter location"
-            name="location"
+            name="listing[location]"
             value="<%= listing.location %>"
             required
           />

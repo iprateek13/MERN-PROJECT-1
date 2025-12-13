@@ -41,8 +41,19 @@ app.get("/", (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 /*routing of listing router using express router*/
-app.use("/listing",listings)
+app.use("/listings",listings)
 
 /*routing of  router using express router*/
 app.use("/listings/:id/reviews",review);

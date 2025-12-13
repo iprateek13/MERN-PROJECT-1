@@ -1,23 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
-const { listingSchema} = require("../JOISchema");
+const { listingSchema } = require("../JOISchema");
 const ExpressError = require("../utils/ExpressError");
 const Listing = require("../models/listings");
-
-
 
 const validateListing = (req, res, next) => {
   const { error } = listingSchema.validate(req.body);
   if (error) {
     let msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(400, msg);
-  } else {
-    next();
   }
+  next();
 };
 
-
+// INDEX ROUTE
 router.get(
   "/",
   wrapAsync(async (req, res) => {
@@ -25,74 +22,74 @@ router.get(
     res.render("listing/index.ejs", { allListing });
   })
 );
-//new route
+
+// NEW FORM
 router.get("/new", (req, res) => {
   res.render("listing/new.ejs");
 });
-// create new post route
+
+// CREATE ROUTE
 router.post(
   "",
   validateListing,
-  wrapAsync(async (req, res, next) => {
-    //NEW LEARNING- Model.create()
-    await Listing.create(req.body);
-    res.redirect("");
+  wrapAsync(async (req, res) => {
+     const listing = new Listing(req.body.listing);
+    await listing.save();
+    res.redirect("/listings");   
   })
 );
-// show route
+
+// SHOW ROUTE
 router.get(
   "/:id",
   wrapAsync(async (req, res) => {
-    let { id } = req.params;
+    const { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
     res.render("listing/show.ejs", { listing });
   })
 );
-//edit route
+
+// EDIT FORM
 router.get(
   "/:id/edit",
   wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(req.params.id);
     res.render("listing/edit.ejs", { listing });
   })
 );
-//put  edit route
+
+// UPDATE ROUTE
 router.put(
   "/:id",
+  validateListing,
   wrapAsync(async (req, res) => {
-    if (!req.body.Listing) {
+
+    if (!req.body.listing) {
       throw new ExpressError(400, "Send valid data for listing");
     }
-    const { title, description, price, country, location, image } = req.body;
-    const listing = await Listing.findById(req.params.id);
-    // Update fields
-    listing.title = title;
-    listing.description = description;
-    listing.price = price;
-    listing.country = country;
-    listing.location = location;
 
-    // Update image only if it exists in form
-    if (image) {
-      listing.image.url = image; // keep the object structure intact
-    }
-    await listing.save();
-    res.redirect(`/${req.params.id}`);
+    const { id } = req.params;
+
+    // Directly update using req.body.listing
+    const listing = await Listing.findByIdAndUpdate(
+      id,
+      req.body.listing,
+      { new: true, runValidators: true }
+    );
+
+    res.redirect(`/listings/${id}`);
   })
 );
 
-//delete route
+
+// DELETE ROUTE
 router.delete(
   "/:id",
   wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let deletedlist = await Listing.findByIdAndDelete(id);
-    // console.log(deletedlist);
-    res.redirect("");
+    await Listing.findByIdAndDelete(req.params.id);
+    res.redirect("/listings");   
   })
 );
-
 
 
 module.exports = router;
