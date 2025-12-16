@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top ">
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><i class="fa-brands fa-airbnb"></i></a>
     <button
@@ -16,7 +16,15 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="/">Home</a>
         <a class="nav-link" href="/listings">Listings</a>
-        <a class="nav-link" href="/listings/new">AddNewList</a>
+        <a class="nav-link" href="/listings/new">AddList</a>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <% if (!currUser) { %>
+        <a class="nav-link active" aria-current="page" href="/signup">Signup</a>
+        <a class="nav-link" href="/login">Login</a>
+        <% } %> <% if (currUser) { %>
+        <a class="nav-link" href="/logout">Logout</a>
+        <% } %>
       </div>
     </div>
   </div>
