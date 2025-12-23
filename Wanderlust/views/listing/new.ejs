@@ -1,8 +1,20 @@
 <% layout("layouts/boilerplate") %>
 <body>
   <div class="col-8 offset-2">
-    <h4 class="my-4">Create a New Listing</h4>
-    <form action="/listings" method="post" class="needs-validation" novalidate>
+<h4 class="my-4 fw-bold text-dark">
+  <i class="fa-solid fa-house me-2 text-primary"></i>
+  Add Your Home
+</h4>
+
+
+
+    <form
+      action="/listings"
+      method="post"
+      class="needs-validation"
+      enctype="multipart/form-data"
+      novalidate
+    >
       <!-- Title -->
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -33,19 +45,16 @@
         <div class="valid-feedback">Description looks fine</div>
       </div>
 
-      <!-- Image URL -->
+      <!-- Image  -->
       <div class="mb-3">
-        <label for="image" class="form-label">Image link</label>
+        <label for="image" class="form-label">Upload listing image</label>
         <input
           id="image"
           class="form-control"
-          type="url"
-          placeholder="Enter image URL"
+          type="file"
           name="listing[image][url]"
           required
         />
-        <div class="invalid-feedback">Please enter a valid image URL</div>
-        <div class="valid-feedback">Image URL looks good</div>
       </div>
 
       <!-- Price & Country (same row) -->

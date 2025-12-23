@@ -30,7 +30,7 @@ module.exports.isOwner = async (req, res, next) => {
 };
 module.exports.isReviewAuthor = async (req, res, next) => {
   let { id, reviewId } = req.params;
-  let listing = await Listing.findById(reviewId);
+  let review = await Review.findById(reviewId);
   if (!review.author.equals(res.locals.currUser._id)) {
     req.flash("error", "You are not authorized to perform this action");
     return res.redirect(`/listings/${id}`);

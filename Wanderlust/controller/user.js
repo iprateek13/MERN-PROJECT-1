@@ -1,24 +1,18 @@
-const express = require("express");
-const router = express.Router();
 let User = require("../models/user");
-const wrapAsync = require("../utils/wrapAsync");
-const passport = require("passport");
-const { saveRedirectUrl } = require("../Middleware");
 
-router.get("/signup", (req, res) => {
+module.exports.getUserForm=(req, res) => {
   console.log("signup now");
   res.render("users/signup");
-});
-router.post(
-  "/signup",
-  wrapAsync(async (req, res) => {
+}
+
+module.exports.signupNewUser=async (req, res) => {
     try {
       let { username, email, password } = req.body;
 
       const newUser = new User({ email, username });
       const registeredUser = await User.register(newUser, password);
 
-      console.log(registeredUser);
+      // console.log(registeredUser);
       req.login(registeredUser, (err) => {
         if (err) {
           next(err);
@@ -30,27 +24,18 @@ router.post(
       req.flash("error", error.message);
       res.redirect("/signup");
     }
-  })
-);
+  }
 
-router.get("/login", (req, res) => {
+ module.exports.getLoginForm =(req, res) => {
   res.render("users/login.ejs");
-});
-router.post(
-  "/login",
-  saveRedirectUrl,
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-    failureFlash: true,
-  }),
-  async (req, res) => {
+}
+ module.exports.login=async (req, res) => {
     req.flash("success", "Welcome back to the WandeLust");
     let redirectUrl = res.locals.redirectUrl || "/listings";
     res.redirect(redirectUrl);
   }
-);
 
-router.get("/logout", (req, res) => {
+  module.exports.logout=(req, res) => {
   req.logout((err) => {
     if (err) {
       next(err);
@@ -58,5 +43,4 @@ router.get("/logout", (req, res) => {
     req.flash("success", "You are Logged out");
     res.redirect("/listings");
   });
-});
-module.exports = router;
+}

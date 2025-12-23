@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+// console.log("env =>",process.env.SECRET)
+
+
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -21,10 +27,11 @@ const userRouter = require("./routes/user");
 
 const ExpressError = require("./utils/ExpressError");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/EzHomes";
+const Atlas_url = process.env.MONGO_ATLAS;
+console.log("Mongo URL =>", Atlas_url);
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(Atlas_url);
 }
 main()
   .then(() => console.log("DB Connected"))
@@ -66,10 +73,6 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   res.locals.currUser = req.user;
   next();
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
 });
 
 // demo user route (testing only)

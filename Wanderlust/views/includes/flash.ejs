@@ -1,0 +1,50 @@
+<style>
+  .flash-msg {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .flash-msg.fade:not(.show) {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+</style>
+<% if (success && success.length) { %>
+<div class="row justify-content-center mt-3">
+  <div
+    class="alert alert-success alert-dismissible col-3 flash-msg"
+    role="alert"
+  >
+    <%= success %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+</div>
+<% } %> <% if (error && error.length) { %>
+<div class="row justify-content-center mt-3">
+  <div
+    class="alert alert-danger alert-dismissible col-3 fade show
+flash-msg"
+    role="alert"
+  >
+    <%= error %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+</div>
+<% } %>
+<script>
+  setTimeout(() => {
+    const alerts = document.querySelectorAll(".flash-msg");
+    alerts.forEach((alert) => {
+      const bsAlert = new bootstrap.Alert(alert);
+      bsAlert.close();
+    });
+  }, 1500); // 2000ms = 2 seconds
+</script>

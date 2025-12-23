@@ -55,36 +55,66 @@
       class="needs-validation"
     >
       <div class="mb-3 mt-3">
+        <!-- starability -->
         <label for="rating" class="form-label">Rating</label>
-        <input
-          type="range"
-          min="1"
-          max="5"
-          id="rating"
-          name="review[rating]"
-          class="form-range"
-        />
+        <fieldset class="starability-slot">
+          <input
+            type="radio"
+            id="first-rate1"
+            name="review[rating]"
+            value="1"
+          />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input
+            type="radio"
+            id="first-rate2"
+            name="review[rating]"
+            value="2"
+          />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input
+            type="radio"
+            id="first-rate3"
+            name="review[rating]"
+            value="3"
+          />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input
+            type="radio"
+            id="first-rate4"
+            name="review[rating]"
+            value="4"
+          />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input
+            type="radio"
+            id="first-rate5"
+            name="review[rating]"
+            value="5"
+          />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
       </div>
-
       <div class="mb-3 mt-3">
         <label for="comment" class="form-label">Comment</label>
         <textarea
           name="review[comment]"
           id="comment"
-          cols="30"
-          class="form-control"
-          rows="5"
+          class="form-control review-textarea"
+          rows="4"
           required
         ></textarea>
-
         <div class="invalid-feedback">Please add some comment</div>
       </div>
+
       <button class="btn btn-outline-dark rounded-pill px-4">Submit</button>
     </form>
     <hr />
     <% } %>
 
     <!-- All Reviews Section -->
+    <% if (listing.reviews.length>0) { %>
+
     <div class="mb-4">
       <p class="fw-semibold mb-3">All Reviews</p>
 
@@ -98,14 +128,13 @@
                 <i class="fa-solid fa-user-circle text-primary me-1 fs-5"></i>
                 <span><%= review.author.username %></span>
               </h6>
-
+              <!-- Rating -->
+              <p
+                class="starability-result"
+                data-rating="<%= review.rating %>"
+              ></p>
               <!-- Comment -->
               <p class="card-text text-muted mb-2"><%= review.comment %></p>
-
-              <!-- Rating -->
-              <span class="badge bg-success">
-                ⭐ <%= review.rating %> / 5
-              </span>
             </div>
 
             <!-- Delete button aligned right -->
@@ -123,5 +152,6 @@
         <% } %>
       </div>
     </div>
+    <% } %>
   </div>
 </body>
