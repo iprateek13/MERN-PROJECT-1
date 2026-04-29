@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 // demo user route (testing only)
 // app.get("/demouser", async (req, res) => {
 //   let fakeUser = new User({
-//     email: "student1@gmail.com",
+//     email: "student1@gmail.comc",
 //     username: "sigma-student",
 //   });
 
